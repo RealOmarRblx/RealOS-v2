@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RealOS v2.0.0</title>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Luxurious+Roman&family=Monoton&family=Rajdhani:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    
+<link rel="stylesheet" href="RealOSv2.0.0.css">
+</head>
+
+<body>
+
+    <div id="scale-wrapper">
+        
+        <div id="power-btn" onclick="OS.togglePower()"></div>
+        <div id="vol-up" class="vol-btn" onclick="Volume.handlePress('up')"></div>
+        <div id="vol-down" class="vol-btn" onclick="Volume.handlePress('down')"></div>
+
+        <div id="device">
+            
+            <div id="volume-overlay">
+                <div id="volume-bar">
+                    <div class="vol-fill" style="height: 50%;"></div>
+                    <i id="vol-icon" class="fas fa-volume-up vol-icon"></i>
+                </div>
+                <div id="silent-btn" onclick="Volume.toggleSilent()">
+                    <i class="fas fa-bell"></i>
+                    <div class="silent-cross"></div>
+                </div>
+            </div>
+            
+            <div id="setup-screen">
+                <div class="setup-header grad-text">RealOS</div>
+
+                <div id="slide-welcome" class="setup-slide current">
+                    <div style="font-size:24px; font-weight:600; margin-bottom:10px;">Welcome</div>
+                    <div class="setup-btn" onclick="Setup.next('welcome', 'notice')">Get Started</div>
+                </div>
+                <div id="slide-notice" class="setup-slide">
+                    <div style="font-size:24px; font-weight:600; margin-bottom:20px;">Notice</div>
+                    <div style="font-size:18px; line-height:1.5; max-width:80%;">This OS is a web simulation made by
+                        @rrealomarr on TikTok.</div>
+                    <div class="setup-btn" onclick="Setup.handleNoticeNext()">Continue</div>
+                </div>
+                <div id="slide-theme" class="setup-slide">
+                    <div style="font-size:24px; font-weight:600; margin-bottom:20px;">Theme</div>
+                    <div style="display:flex; gap:20px; margin-bottom:30px">
+                        <div class="theme-preview active" id="tp-light">
+                            <div class="tp-screen" style="background:#d0d0d0"></div>
+                            <div style="margin-top:5px; font-size:12px;">Light</div>
+                        </div>
+                        <div class="theme-preview" id="tp-dark">
+                            <div class="tp-screen" style="background:#111"></div>
+                            <div style="margin-top:5px; font-size:12px;">Dark</div>
+                        </div>
+                    </div>
+                    <div class="setup-btn sec" onclick="Setup.toggleThemeSetup()">Toggle Theme</div>
+                    <div class="setup-btn" onclick="Setup.next('theme', 'profile')">Continue</div>
+                </div>
+                <div id="slide-profile" class="setup-slide">
+                    <div style="font-size:24px; font-weight:600; margin-bottom:20px;">Your Profile</div>
+                    <div class="setup-profile-container">
+                        <div class="setup-profile-icon" id="setup-profile-icon" onclick="Setup.selectProfileImage()">
+                            <i class="fas fa-user" id="setup-profile-user-icon"></i>
+                            <img id="setup-profile-preview" style="display:none;">
+                            <div class="setup-profile-edit"><i class="fas fa-camera"></i></div>
+                        </div>
+                        <input type="text" id="setup-name-input" placeholder="Enter your name"
+                            onkeydown="event.stopPropagation()" class="setup-profile-input">
+                    </div>
+                    <div class="setup-btn" onclick="Setup.saveProfile()">Continue</div>
+                </div>
+                <div id="slide-security" class="setup-slide">
+                    <div style="font-size:24px; font-weight:600; margin-bottom:20px;">Security</div>
+                    <div style="margin-bottom:30px">Protect your device</div>
+                    <div class="setup-btn sec" onclick="Setup.launchPinSetup()">Set PIN</div>
+                    <div class="setup-btn" onclick="Setup.next('security', 'finish')">Skip</div>
+                </div>
+                <div id="slide-finish" class="setup-slide">
+                    <div style="font-size:24px; font-weight:600; margin-bottom:20px;">All Set!</div>
+                    <div style="font-size:18px; max-width:80%;">Enjoy the Experience.</div>
+                    <div class="setup-btn" onclick="Setup.finish()">Finish</div>
+                </div>
+            </div>
+
+            
+            <div id="global-clock">
+                <div class="gc-time" id="global-time">12:00</div>
+            </div>
+
+            <!-- Power layer / AOD -->
+            <div id="power-layer">
+                <div id="aod-bg-layer"></div>
+                <div id="aod-content">
+                    <div class="aod-date" id="aod-date">Jan 1</div>
+                    <div id="aod-user-text" class="aod-text"></div>
+                    <img id="aod-img" class="aod-img" style="display:none">
+                    <div id="aod-music" class="aod-music" style="display:none">
+                        <div id="aod-art" class="aod-art"></div>
+                        <div>
+                            <div id="aod-title" style="font-weight:700; font-size:14px; color:#fff">Title</div>
+                            <div id="aod-artist" style="font-size:12px; color:#aaa">Artist</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="brightness-layer"></div>
+
+            <div id="screen">
+                <div id="wallpaper-layer"></div>
+
+                <div class="status-bar">
+                    <span id="clock">12:00</span>
+                    <div style="display:flex; gap:5px;">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+
+                
+                <div id="island-wrap">
+                    <div id="dynamic-island" onclick="Island.tapMain(event)">
+                        <div id="di-bg-blur"></div>
+                        <div class="di-view active" id="view-idle" style="justify-content:center; gap:8px;"></div>
+
+                        <div class="di-view" id="view-music-mini">
+                            <div class="di-art" id="mini-art" style="width:24px; height:24px; margin-right:10px;"></div>
+                            <div class="di-wave">
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                            </div>
+                        </div>
+
+                        <div class="di-view" id="view-music-exp"
+                            style="flex-direction:column; align-items:flex-start; padding:25px;">
+                            <div style="display:flex; width:100%; margin-bottom:10px;">
+                                <div class="di-art" style="width:55px; height:55px;" id="exp-art"></div>
+                                <div class="di-text">
+                                    <div class="di-title" id="exp-title">Track</div>
+                                    <div class="di-sub" id="exp-artist">Artist</div>
+                                </div>
+                            </div>
+                            <div class="prog-bar-container" onclick="event.stopPropagation()">
+                                <div class="prog-bar-bg">
+                                    <div class="prog-bar-fill" id="exp-prog-fill"></div>
+                                </div>
+                            </div>
+                            <div class="prog-time"><span id="exp-curr-time">0:00</span><span
+                                    id="exp-tot-time">0:00</span>
+                            </div>
+
+                            <div class="di-ctrls"
+                                style="width:100%; display:flex; justify-content:center; margin-top:15px; pointer-events:auto;"
+                                onclick="event.stopPropagation()">
+                                <i class="fas fa-backward" onclick="Music.prev()"></i>
+                                <i class="fas fa-pause" id="exp-play" onclick="Music.toggle()"></i>
+                                <i class="fas fa-forward" onclick="Music.next()"></i>
+                            </div>
+                        </div>
+
+                        <div class="di-view" id="view-timer-mini" style="justify-content:center; color:#ff9f0a">
+                            <i class="fas fa-stopwatch" style="margin-right:8px"></i>
+                            <span id="di-timer-mini-val" style="font-family:monospace; font-weight:bold">00:00</span>
+                        </div>
+
+                        <div class="di-view" id="view-timer-exp"
+                            style="flex-direction:column; justify-content:center; align-items:center; color:#ff9f0a">
+                            <div style="font-size:14px; color:#888; margin-bottom:5px;">Timer</div>
+                            <div id="di-timer-val"
+                                style="font-size:50px; font-family:monospace; font-weight:200; line-height:1;">05:00
+                            </div>
+                            <div style="margin-top:15px; display:flex; gap:20px;" onclick="event.stopPropagation()">
+                                <button class="btn-pill" style="background:#333; width:80px; padding:10px;"
+                                    onclick="Timer.stop()">Stop</button>
+                                <button class="btn-pill" style="background:#ff9f0a; width:80px; padding:10px;"
+                                    onclick="Timer.toggle()">Pause</button>
+                            </div>
+                        </div>
+
+                        <div class="di-view" id="view-timer-done"
+                            style="justify-content:center; align-items:center; color:#ff9f0a">
+                            <i class="fas fa-stopwatch" style="font-size:24px; margin-right:10px;"></i>
+                            <span style="font-family:monospace; font-weight:bold; font-size: 20px;">0:00+</span>
+                        </div>
+
+                        <div class="di-view" id="view-welcome"
+                            style="justify-content:start; align-items:center; color:white; padding-left:15px; cursor: pointer;">
+                            <div
+                                style="width:36px; height:36px; background:#34c759; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-right:12px; box-shadow:0 0 10px rgba(52, 199, 89, 0.4);">
+                                <i class="fas fa-check" style="font-size:18px; color:black;"></i>
+                            </div>
+                            <div class="di-text" style="text-align:left;">
+                                <div class="di-title" style="font-size:16px;">Welcome to RealOS</div>
+                                <div class="di-sub" style="font-size:11px; opacity:0.7;">Click to learn more</div>
+                            </div>
+                        </div>
+
+                        <div class="di-view" id="view-notify">
+                            <div
+                                style="width:35px; height:35px; background:white; border-radius:50%; display:flex; justify-content:center; align-items:center; color:black; margin-right:10px;">
+                                <i id="notify-icon" class="fas fa-bell"></i>
+                            </div>
+                            <div style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:280px;">
+                                <div id="notify-title" style="font-weight:bold; font-size:14px; color:white;">System
+                                </div>
+                                <div id="notify-msg" style="font-size:12px; color:#ccc;">Update</div>
+                            </div>
+                        </div>
+
+                        <div class="di-view" id="view-unlocked" style="justify-content:center; color:#34c759">
+                            <i class="fas fa-lock-open" style="margin-right:8px"></i>
+                            <span style="font-weight:bold; font-size:14px;">Unlocked</span>
+                        </div>
+
+                        <div class="di-view" id="view-welcome"
+                            style="justify-content:center; align-items:center; gap:10px; opacity:0; pointer-events:none;">
+                            <div
+                                style="width:24px; height:24px; background:#34c759; border-radius:50%; display:flex; justify-content:center; align-items:center; color:white; font-size:12px;">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div style="display:flex; flex-direction:column; justify-content:center;">
+                                <div style="font-weight:700; font-size:12px; opacity:0.6; line-height:1;">RealOS</div>
+                                <div style="font-weight:600; font-size:14px;">Welcome to RealOS</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dynamic-island-sec" onclick="Island.tapSec(event)">
+                        <i class="fas fa-stopwatch" style="font-size:18px;"></i>
+                    </div>
+                </div>
+
+                
+                <div id="lock-screen">
+                    <div class="ls-date" id="ls-date">Saturday, Jan 1</div>
+
+                    <div class="ls-bottom">
+                        <div id="ls-biometric">
+                            <i class="fas fa-fingerprint"></i>
+                            <div class="bio-wave"></div>
+                        </div>
+                        <div class="ls-hint">Swipe up to open</div>
+                    </div>
+
+                    <div id="ls-pin-pad">
+                        <div style="margin-bottom:20px; font-size:18px; font-weight:600">Enter PIN</div>
+                        <div class="ls-dots" id="ls-dots">
+                            <div class="ls-dot"></div>
+                            <div class="ls-dot"></div>
+                            <div class="ls-dot"></div>
+                            <div class="ls-dot"></div>
+                        </div>
+                        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:15px;">
+                            <button class="ls-btn" onclick="LockScreen.addPin('1')">1</button>
+                            <button class="ls-btn" onclick="LockScreen.addPin('2')">2</button>
+                            <button class="ls-btn" onclick="LockScreen.addPin('3')">3</button>
+                            <button class="ls-btn" onclick="LockScreen.addPin('4')">4</button>
+                            <button class="ls-btn" onclick="LockScreen.addPin('5')">5</button>
+                            <button class="ls-btn" onclick="LockScreen.addPin('6')">6</button>
+                            <button class="ls-btn" onclick="LockScreen.addPin('7')">7</button>
+                            <button class="ls-btn" onclick="LockScreen.addPin('8')">8</button>
+                            <button class="ls-btn" onclick="LockScreen.addPin('9')">9</button>
+                            <button class="ls-btn" style="background:transparent"></button>
+                            <button class="ls-btn" onclick="LockScreen.addPin('0')">0</button>
+                            <button class="ls-btn" style="background:transparent; font-size:20px"
+                                onclick="LockScreen.cancelPin()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="home-screen" class="hidden-locked">
+                    <div id="home-contents">
+                        <div class="grid" id="app-grid"></div>
+                        <div class="dock" id="dock"></div>
+                    </div>
+                </div>
+
+                <!-- APP WINDOW -->
+                <div id="app-window">
+                    <div class="app-header" id="app-header">
+                        <span id="app-back" onclick="AppManager.close()"
+                            style="display:none; color:var(--accent); cursor:pointer;"><i
+                                class="fas fa-chevron-left"></i>
+                            Back</span>
+                        <span id="app-title"></span>
+                        <span style="width:40px"></span>
+                    </div>
+                    <div class="app-content" id="app-body"></div>
+                    <i class="fas fa-home app-close-icon"></i> 
+
+                    
+                    <div id="new-note-modal">
+                        <div class="nn-box">
+                            <h3>New Note</h3>
+                            <textarea id="nn-text" class="nn-input" placeholder="Type something..."></textarea>
+                            <div class="color-opts" id="nn-colors">
+                                <div class="color-opt selected" style="background:#ff9ff3" data-c="note-pink"></div>
+                                <div class="color-opt" style="background:#ff9f43" data-c="note-salmon"></div>
+                                <div class="color-opt" style="background:#55efc4" data-c="note-green"></div>
+                                <div class="color-opt" style="background:#feca57" data-c="note-yellow"></div>
+                                <div class="color-opt" style="background:#54a0ff" data-c="note-blue"></div>
+                            </div>
+                            <div style="display:flex; gap:10px">
+                                <button class="btn-pill" style="background:#333; flex:1"
+                                    onclick="Apps.notes.cancelAdd()">Cancel</button>
+                                <button class="btn-pill" style="flex:1" onclick="Apps.notes.saveAdd()">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="modal-overlay" class="os-modal-overlay">
+                    <div class="os-modal">
+                        <div class="osm-body">
+                            <div class="osm-title" id="osm-title">Alert</div>
+                            <div class="osm-msg" id="osm-msg">Message</div>
+                        </div>
+                        <div class="osm-footer" id="osm-footer">
+                            <div class="osm-btn primary" onclick="OS.hidePopup()">OK</div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="music-fs-overlay">
+                    <div class="fs-bg" id="fs-bg"></div>
+                    <div class="fs-content">
+                        <div class="fs-close" onclick="Music.collapse()"><i class="fas fa-times"></i></div>
+                        <div class="fs-header" onclick="Music.collapse()"></div>
+                        <div class="fs-art" id="fs-art" onclick="Lyrics.toggleMode()"></div>
+                        <div class="fs-info">
+                            <div class="fs-title" id="fs-title">Title</div>
+                            <div class="fs-artist" id="fs-artist">Artist</div>
+                        </div>
+
+                        
+                        <div class="lyrics-trash-btn" onclick="Lyrics.confirmRemove()"><i class="fas fa-trash"></i>
+                        </div>
+
+                        
+                        <div id="lyrics-container"></div>
+
+                        
+                        <div class="fs-lyrics-row">
+                            <i class="fas fa-align-left lyrics-btn" id="lyrics-btn" onclick="Lyrics.toggleMode()"
+                                title="Lyrics"></i>
+                        </div>
+
+                        <div class="fs-progress-wrapper">
+                            <div class="prog-bar-container" style="margin-bottom:10px"
+                                onmousedown="Music.startScrub(event, this)"
+                                onmousemove="Music.handleScrub(event, this)">
+                                <div class="prog-bar-bg">
+                                    <div class="prog-bar-fill" id="fs-prog-fill"></div>
+                                </div>
+                            </div>
+                            <div class="prog-time" style="font-size:14px;"><span id="fs-curr-time">0:00</span><span
+                                    id="fs-tot-time">0:00</span></div>
+                        </div>
+
+                        <div class="fs-controls-wrapper">
+                            <i class="fas fa-random fs-shuffle-btn" id="fs-shuffle" onclick="Music.toggleShuffle()"
+                                title="Shuffle"></i>
+                            <i class="fas fa-backward" onclick="Music.prev()"></i>
+                            <i class="fas fa-pause" id="fs-play" onclick="Music.toggle()"></i>
+                            <i class="fas fa-forward" onclick="Music.next()"></i>
+                            <i class="fas fa-redo fs-repeat-btn" id="fs-repeat" onclick="Music.toggleRepeat()"
+                                title="Repeat"></i>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="gesture-area">
+                    <div class="home-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audio-player"></audio>
+    <input type="file" id="file-input" style="display:none" accept="audio/*">
+    <input type="file" id="lrc-input" style="display:none" accept=".lrc">
+    <input type="file" id="wall-input" style="display:none" accept="image/*">
+    <input type="file" id="aod-input" style="display:none" accept="image/*">
+    <input type="file" id="profile-input" style="display:none" accept="image/*">
+    <audio id="ringtone-player"
+        src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA"></audio>
+
+    
+
+<script src="RealOSv2.0.0.js"></script>
+</body>
+
+</html>
