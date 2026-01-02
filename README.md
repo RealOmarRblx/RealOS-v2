@@ -1,4 +1,4 @@
-# **RealOS v2.0.0**
+# **RealOS v2.1.0**
 
 
 
@@ -13,4 +13,5 @@ Q = Power off the phone
 
 
 older version of RealOS can be found here: https://github.com/RealOmarRblx/RealOS
+
 
