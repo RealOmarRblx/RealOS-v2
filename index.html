@@ -4,33 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RealOS v2.0.0</title>
+    <title>RealOS v2.1.0</title>
 
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Luxurious+Roman&family=Monoton&family=Rajdhani:wght@500;700&display=swap"
         rel="stylesheet">
 
-    
-<link rel="stylesheet" href="RealOSv2.0.0.css">
+    <link rel="stylesheet" href="RealOSv2.1.0.css">
 </head>
 
 <body>
 
     <div id="scale-wrapper">
-        
+
         <div id="power-btn" onclick="OS.togglePower()"></div>
         <div id="vol-up" class="vol-btn" onclick="Volume.handlePress('up')"></div>
         <div id="vol-down" class="vol-btn" onclick="Volume.handlePress('down')"></div>
 
         <div id="device">
-            
+
             <div id="volume-overlay">
                 <div id="volume-bar">
                     <div class="vol-fill" style="height: 50%;"></div>
@@ -41,7 +38,7 @@
                     <div class="silent-cross"></div>
                 </div>
             </div>
-            
+
             <div id="setup-screen">
                 <div class="setup-header grad-text">RealOS</div>
 
@@ -96,12 +93,10 @@
                 </div>
             </div>
 
-            
             <div id="global-clock">
                 <div class="gc-time" id="global-time">12:00</div>
             </div>
 
-            <!-- Power layer / AOD -->
             <div id="power-layer">
                 <div id="aod-bg-layer"></div>
                 <div id="aod-content">
@@ -132,7 +127,6 @@
                     </div>
                 </div>
 
-                
                 <div id="island-wrap">
                     <div id="dynamic-island" onclick="Island.tapMain(event)">
                         <div id="di-bg-blur"></div>
@@ -246,7 +240,6 @@
                     </div>
                 </div>
 
-                
                 <div id="lock-screen">
                     <div class="ls-date" id="ls-date">Saturday, Jan 1</div>
 
@@ -284,7 +277,6 @@
                     </div>
                 </div>
 
-                
                 <div id="home-screen" class="hidden-locked">
                     <div id="home-contents">
                         <div class="grid" id="app-grid"></div>
@@ -292,7 +284,6 @@
                     </div>
                 </div>
 
-                <!-- APP WINDOW -->
                 <div id="app-window">
                     <div class="app-header" id="app-header">
                         <span id="app-back" onclick="AppManager.close()"
@@ -303,9 +294,8 @@
                         <span style="width:40px"></span>
                     </div>
                     <div class="app-content" id="app-body"></div>
-                    <i class="fas fa-home app-close-icon"></i> 
+                    <i class="fas fa-home app-close-icon"></i>
 
-                    
                     <div id="new-note-modal">
                         <div class="nn-box">
                             <h3>New Note</h3>
@@ -326,7 +316,6 @@
                     </div>
                 </div>
 
-                
                 <div id="modal-overlay" class="os-modal-overlay">
                     <div class="os-modal">
                         <div class="osm-body">
@@ -339,7 +328,6 @@
                     </div>
                 </div>
 
-                
                 <div id="music-fs-overlay">
                     <div class="fs-bg" id="fs-bg"></div>
                     <div class="fs-content">
@@ -351,14 +339,11 @@
                             <div class="fs-artist" id="fs-artist">Artist</div>
                         </div>
 
-                        
                         <div class="lyrics-trash-btn" onclick="Lyrics.confirmRemove()"><i class="fas fa-trash"></i>
                         </div>
 
-                        
                         <div id="lyrics-container"></div>
 
-                        
                         <div class="fs-lyrics-row">
                             <i class="fas fa-align-left lyrics-btn" id="lyrics-btn" onclick="Lyrics.toggleMode()"
                                 title="Lyrics"></i>
@@ -388,7 +373,6 @@
                     </div>
                 </div>
 
-                
                 <div id="gesture-area">
                     <div class="home-bar"></div>
                 </div>
@@ -405,9 +389,7 @@
     <audio id="ringtone-player"
         src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA"></audio>
 
-    
-
-<script src="RealOSv2.0.0.js"></script>
+    <script src="RealOSv2.1.0.js"></script>
 </body>
 
 </html>
