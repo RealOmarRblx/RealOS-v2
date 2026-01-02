@@ -419,7 +419,7 @@ body.dark-mode .grad-text {
 
 #device {
     width: 100%;
-    height: 96%;
+    height: 94%;
     background: var(--bg-frame);
     border-radius: 60px;
     box-shadow: 0 0 0 12px #333, 0 40px 80px rgba(0, 0, 0, 0.4);
@@ -3449,3 +3449,4 @@ body[data-app-shape="rounded"] .icon-box {
 #global-clock {
     transition: all var(--home-anim-dur) cubic-bezier(0.32, 0.72, 0, 1);
 }
+
