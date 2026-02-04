@@ -2863,7 +2863,7 @@ const Apps = {
                             </div>
                             <div class="about-hero" style="z-index:2; position:relative;">
                                 <div class="realos-text">RealOS</div>
-                                <div class="realos-ver">V2.1.0</div>
+                                <div class="realos-ver">V2.2.0</div>
                             </div>
                             <div style="padding:0 20px 40px; position:relative; z-index:2;">
                                 <div style="text-align:center; color:var(--text-sec); margin-top:5px; margin-bottom:30px;">@rrealomarr</div>
