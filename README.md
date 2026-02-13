@@ -1,8 +1,10 @@
-# **RealOS v2.2.5 HOTFIX**
+<img width="2048" height="1152" alt="Image" src="https://github.com/user-attachments/assets/aa23408a-e890-4d80-bac9-e2001a2721ab" />
+
+# **RealOS v2.3.0**
 
 
 
-an operating system simulator heavily inspired by @sungsamtech's OriginOS web (https://quandz24-ui.github.io/OriginOS\_web/)
+an operating system simulator heavily inspired by @sungsamtech's OriginOS web (https://quandz24-ui.github.io/OriginWEB)
 
 ***\*\*website might be laggy on low end devices\*\****
 
