@@ -15,6 +15,4 @@ Q = Power off the phone
 
 
 
-older version of RealOS can be found here: https://github.com/RealOmarRblx/RealOS
-
 
